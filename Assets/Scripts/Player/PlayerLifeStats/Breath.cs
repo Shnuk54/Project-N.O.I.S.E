@@ -14,15 +14,15 @@ public class Breath : MonoBehaviour
 
     [Range(0,2f)]
     [SerializeField] private float _breathChangeSpeed;
-    [Range(0, 60f)]
-    [SerializeField] private float _targetBreathSpeed;
+    [Range(0, 60)]
+    [SerializeField] private int _targetBreathSpeed;
 
     
     private AudioSource _source;
 
     private void Start()
     {
-        _targetBreathSpeed = _breathingSpeed;
+        _targetBreathSpeed = Mathf.RoundToInt(_breathingSpeed);
         _delay = 60f / _breathingSpeed;
         _source = GetComponent<AudioSource>();
         StartBreathing();
@@ -32,18 +32,22 @@ public class Breath : MonoBehaviour
         get { return _breathingSpeed; }
         set
         {
-            _targetBreathSpeed = value;
+            _targetBreathSpeed = Mathf.RoundToInt(value);
         }
     }
     private void FixedUpdate()
     {
-        SmoothChangeBreathSpeed();
+        if (PlayerStateHandler.instance.PlayerState.isDead == false) SmoothChangeBreathSpeed();
     }
     private void SmoothChangeBreathSpeed()
     {
-        if (_breathingSpeed > _targetBreathSpeed || +_breathingSpeed < _targetBreathSpeed)
+        if (_breathingSpeed == _targetBreathSpeed) return;
+        if (_breathingSpeed > _targetBreathSpeed || _breathingSpeed < _targetBreathSpeed)
         {
             _breathingSpeed = Mathf.Lerp(_breathingSpeed, _targetBreathSpeed, _breathChangeSpeed * Time.deltaTime);
+            var gate = _targetBreathSpeed - _breathingSpeed;
+            gate = Mathf.Abs(gate);
+            if (gate < 0.4f && _breathingSpeed != _targetBreathSpeed) _breathingSpeed = Mathf.Round(_breathingSpeed);
             _delay = 60f / _breathingSpeed;
 
         }

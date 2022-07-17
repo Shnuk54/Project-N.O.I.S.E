@@ -14,19 +14,20 @@ public class HeartBeatSounds : MonoBehaviour
    
     [Header("Pulse settings")]
     [SerializeField] private float _pulse;
+
     [Range(1, 200)]
-    [SerializeField] private float _targetPulse;
+    [SerializeField] private int _targetPulse;
     [SerializeField] private float _pulseChangeSpeed;
 
   
-    [SerializeField] private float _delay;
+    private float _delay;
 
    
     
 
     private void Start()
     {
-        _targetPulse = _pulse;
+        _targetPulse = Mathf.RoundToInt(_pulse);
         _delay = 60 / _pulse;
         PlayHeartBeat();
     }
@@ -35,7 +36,7 @@ public class HeartBeatSounds : MonoBehaviour
     {
         get { return _pulse; }
         set {
-            _targetPulse = value;
+            _targetPulse = Mathf.RoundToInt(value);
         }
     }
     private void FixedUpdate()
@@ -45,9 +46,14 @@ public class HeartBeatSounds : MonoBehaviour
     
     private void SmoothChangeHeartBeat()
     {
+        if (_pulse == _targetPulse) return;
         if (_pulse > _targetPulse || _pulse < _targetPulse)
         {
             _pulse = Mathf.Lerp(_pulse, _targetPulse, _pulseChangeSpeed * Time.deltaTime);
+            var gate = _targetPulse - _pulse;
+            gate = Mathf.Abs(gate);
+            if (gate <  0.4f && _pulse != _targetPulse) _pulse = Mathf.Round(_pulse);
+           
             _delay = 60f / _pulse;
             
         }

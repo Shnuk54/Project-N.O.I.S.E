@@ -17,13 +17,16 @@ public class PlayerLifeStatsController : MonoBehaviour
     [Header("Endurance")]
     [SerializeField] private float _endurance;
     [SerializeField][Range(1, 100)] private float _maxEndurance;
+    [SerializeField] private float _enduranceChangeSpeed;
 
     [Header("Stress")]
     [SerializeField] private float _stress;
     [SerializeField][Range(1, 100)] private float _maxStress;
+    [SerializeField] private float _stressChangeSpeed;
 
     [Header("Heart")]
     [SerializeField] private float _heartBeat;
+    [SerializeField] private float _heartBeatChangeSpeed;
     private HeartBeatSounds _heart;
 
     private void Start()

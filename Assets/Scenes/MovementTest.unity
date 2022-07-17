@@ -539,7 +539,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1334011741}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &976848308
 AudioSource:
@@ -654,9 +654,9 @@ MonoBehaviour:
   _exhaleSounds:
   - {fileID: 8300000, guid: 05851fb062529794eb039f872c68242e, type: 3}
   _delay: 0
-  _breathingSpeed: 10.24
+  _breathingSpeed: 11.01
   _breathChangeSpeed: 0.3
-  _targetBreathSpeed: 7
+  _targetBreathSpeed: 14
 --- !u!1 &1054754870
 GameObject:
   m_ObjectHideFlags: 0
@@ -687,7 +687,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1334011741}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &1054754872
 AudioSource:
@@ -803,9 +803,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 5b814330979a0154e84208abce7e8f63, type: 3}
   _source: {fileID: 1054754872}
   _pulse: 12.2
-  _targetPulse: 11
-  _pulseChangeSpeed: 2.99
-  _delay: 0.75
+  _targetPulse: 70
+  _pulseChangeSpeed: 0.63
 --- !u!1 &1186596325
 GameObject:
   m_ObjectHideFlags: 0
@@ -1093,7 +1092,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 0.03
-  _sprintSpeed: 0
+  _sprintSpeed: 0.035
   _mouseSens: 1
   _gravity: -1
   _maxXRot: 85
@@ -1177,6 +1176,7 @@ Transform:
   - {fileID: 1419510905}
   - {fileID: 1186596326}
   - {fileID: 1434896543}
+  - {fileID: 1403433983}
   - {fileID: 1054754871}
   - {fileID: 976848307}
   m_Father: {fileID: 0}
@@ -1256,9 +1256,12 @@ MonoBehaviour:
   _maxHealth: 0
   _endurance: 0
   _maxEndurance: 0
+  _enduranceChangeSpeed: 0
   _stress: 0
   _maxStress: 0
+  _stressChangeSpeed: 0
   _heartBeat: 0
+  _heartBeatChangeSpeed: 0
 --- !u!114 &1334011747
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1272,6 +1275,59 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _stressLevel: 0
+  _standartChangeSpeed: 0.1
+  _changeSpeed: 0
+  _minimumStressLevel: 0
+  _targetStress: 0
+  _status: 0
+--- !u!1 &1403433982
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1403433983}
+  - component: {fileID: 1403433984}
+  m_Layer: 7
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1403433983
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1403433982}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1334011741}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1403433984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1403433982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88320ecd77f931c48ac465c01226c060, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stressLevel: 0
+  _standartChangeSpeed: 0.1
+  _changeSpeed: 0.39833456
+  _minimumStressLevel: 0
+  _targetStress: 0
   _status: 0
 --- !u!1 &1419510904
 GameObject:
