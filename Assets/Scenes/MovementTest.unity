@@ -657,6 +657,10 @@ MonoBehaviour:
   _breathingSpeed: 11.01
   _breathChangeSpeed: 0.3
   _targetBreathSpeed: 14
+  _endurance: 0
+  _maxEndurance: 100
+  _enduranceLostSpeed: 0.5
+  _enduraceRestoreSpeed: 0.3
 --- !u!1 &1054754870
 GameObject:
   m_ObjectHideFlags: 0
@@ -803,7 +807,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 5b814330979a0154e84208abce7e8f63, type: 3}
   _source: {fileID: 1054754872}
   _pulse: 12.2
-  _targetPulse: 70
+  _targetPulse: 32
   _pulseChangeSpeed: 0.63
 --- !u!1 &1186596325
 GameObject:
@@ -1091,8 +1095,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4478e2584cd4d7446bd5dc98951bf79a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 0.03
-  _sprintSpeed: 0.035
+  _speed: 1.3
+  _sprintSpeed: 3.2
   _mouseSens: 1
   _gravity: -1
   _maxXRot: 85
@@ -1259,9 +1263,11 @@ MonoBehaviour:
   _enduranceChangeSpeed: 0
   _stress: 0
   _maxStress: 0
+  _targetStress: 0
   _stressChangeSpeed: 0
   _heartBeat: 0
   _heartBeatChangeSpeed: 0
+  _targetHeartBeat: 0
 --- !u!114 &1334011747
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1447,6 +1453,9 @@ MonoBehaviour:
   _eyesClosed: 0
   startBlinking: 0
   _image: {fileID: 789892347}
+  _eyeEndurance: 8.79
+  _eyeTiredSpeed: 0.9
+  _maxEyeEndurance: 17.3
 --- !u!114 &1434896545
 MonoBehaviour:
   m_ObjectHideFlags: 0

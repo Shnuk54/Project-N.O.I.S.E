@@ -27,18 +27,29 @@ public class HeartBeatSounds : MonoBehaviour
 
     private void Start()
     {
-        _targetPulse = Mathf.RoundToInt(_pulse);
         _delay = 60 / _pulse;
         PlayHeartBeat();
+    }
+
+    public float TargetPulse
+    {
+        get { return _targetPulse; }
+        set {
+            _targetPulse = Mathf.RoundToInt(value);
+        }
     }
 
     public float Pulse
     {
         get { return _pulse; }
-        set {
-            _targetPulse = Mathf.RoundToInt(value);
-        }
     }
+
+    public float PulseChangeSpeed
+    {
+        get { return _pulseChangeSpeed; }
+        set { _pulseChangeSpeed = value; }
+    }
+
     private void FixedUpdate()
     {
         if(PlayerStateHandler.instance.PlayerState.isDead == false) SmoothChangeHeartBeat();
@@ -50,6 +61,9 @@ public class HeartBeatSounds : MonoBehaviour
         if (_pulse > _targetPulse || _pulse < _targetPulse)
         {
             _pulse = Mathf.Lerp(_pulse, _targetPulse, _pulseChangeSpeed * Time.deltaTime);
+
+            _source.volume = Mathf.Lerp(_source.volume, _targetPulse/200f, _pulseChangeSpeed / 2 * Time.deltaTime);
+           
             var gate = _targetPulse - _pulse;
             gate = Mathf.Abs(gate);
             if (gate <  0.4f && _pulse != _targetPulse) _pulse = Mathf.Round(_pulse);

@@ -13,12 +13,27 @@ public class Stress : MonoBehaviour
     [SerializeField] private StressStatus _status;
 
 
-    [ContextMenu("ChangeStress")]
-    private void ChangeStress()
-    {
-        ChangeStress(Random.Range(-5,5),Random.Range(0.1f,1f));
+
+
+    public float TargetStress{
+        get { return _targetStress; }
+        set { _targetStress = value; }
     }
-   private void ChangeStress(float stress,float speed )
+    public float StressLevel
+    {
+        get { return _stressLevel; }
+        
+    }
+    public float StressChangeSpeed
+    {
+        get { return _changeSpeed; }
+    }
+    public StressStatus StressStatus
+    {
+        get { return _status; }
+    }
+
+    public void ChangeStress(float stress,float speed )
     {
        
         if (_targetStress + stress > 100) {
@@ -37,6 +52,8 @@ public class Stress : MonoBehaviour
 
         _targetStress += stress;
         _changeSpeed = speed;
+
+        
         
     }
 
@@ -58,8 +75,13 @@ public class Stress : MonoBehaviour
             gate = Mathf.Abs(gate);
             if (gate < 0.4f && _stressLevel != _targetStress) _stressLevel = Mathf.Round(_stressLevel);
 
-
         }
+
+        if (_stressLevel <= 10) _status = StressStatus.Ñalmn;
+        if(_stressLevel > 10 && _stressLevel < 25) _status = StressStatus.LowStress;
+        if (_stressLevel > 25 && _stressLevel < 50) _status = StressStatus.MediumStress;
+        if (_stressLevel > 50 && _stressLevel < 80) _status = StressStatus.HighStress;
+        if (_stressLevel > 80 && _stressLevel <= 100) _status = StressStatus.Scared;
     }
 }
 

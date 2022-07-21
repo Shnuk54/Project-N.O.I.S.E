@@ -7,10 +7,10 @@ public class PlayerMovement : MonoBehaviour
 
     CharacterController _charController;
 
-    [Range(0.01f,0.1f)]
+    [Range(0.01f,10f)]
     [SerializeField] float _speed;
 
-    [Range(0.02f, 0.1f)]
+    [Range(0.02f, 15f)]
     [SerializeField] float _sprintSpeed;
 
     [Range(0.5f,10)]
@@ -44,7 +44,7 @@ public class PlayerMovement : MonoBehaviour
         right.y = 0;
 
         Vector3 dir;
-        dir =  forward*verInput + right*horInput;
+        dir =  (forward*verInput + right*horInput)/100;
         if(InputHandler.instance.sprinting == false)dir = dir * _speed;
         if (InputHandler.instance.sprinting) dir = dir * _sprintSpeed;
         dir.y = _gravity;
