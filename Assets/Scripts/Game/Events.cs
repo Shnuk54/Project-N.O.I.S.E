@@ -9,6 +9,7 @@ using System;
     public static event UnityAction<CameraStates> onCameraChangeState;
     public static event UnityAction onPlayerBlink;
     public static event UnityAction onPlayerStartBlink;
+    public static event UnityAction<IWeapon> onPlayerChangeWeapon;
     public static Events instance { get; private set; }
 
     private void Start()
@@ -27,6 +28,12 @@ using System;
         if (onPlayerBlink != null)
         {
             onPlayerBlink.Invoke();
+        }
+    }
+
+   public void OnPlayerChangeWeapon(IWeapon weapon){
+        if(onPlayerChangeWeapon != null){
+            onPlayerChangeWeapon(weapon);
         }
     }
     public void OnPlayerStartBlink()
