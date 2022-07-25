@@ -56,6 +56,29 @@ public class Breath : MonoBehaviour
             _breathingSpeed = value;
         }   
     }
+
+    public float Endurance
+    {
+        get { return _endurance; }
+        set { _endurance = value; }
+    }
+    public float EnduranceLostSpeed
+    {
+        get { return _enduranceLostSpeed; }
+        set { _enduranceLostSpeed = value; }
+    }
+
+    public float EnduranceRestoreSpeed
+    {
+        get { return _enduraceRestoreSpeed; }
+        set { _enduraceRestoreSpeed = value; }
+    }
+    public float MaxEndurance
+    {
+        get { return _maxEndurance; }
+        set { _maxEndurance = value; }
+    }
+
     private void FixedUpdate()
     {
         if (PlayerStateHandler.instance.PlayerState.isDead == false) {
@@ -116,7 +139,12 @@ public class Breath : MonoBehaviour
 
     private void RestoreEndurance()
     {
-        if (_endurance >= _maxEndurance) return;
+        if (_endurance >= _maxEndurance)
+        {
+            _endurance = _maxEndurance;
+            return;
+        } 
+
         if(PlayerStateHandler.instance.PlayerState.isSprinting == false && PlayerStateHandler.instance.PlayerState.isMoving == false)
         {
             _endurance += _enduraceRestoreSpeed * Time.deltaTime;

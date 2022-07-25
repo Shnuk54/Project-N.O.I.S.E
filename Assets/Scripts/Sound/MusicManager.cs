@@ -11,11 +11,9 @@ public class MusicManager : MonoBehaviour
     }
 
       void OnSceneLoaded(Scene scene, LoadSceneMode mode){
-         if(MenuManager.GetCurrentScene() == 1){
-            AudioManager.singleton.Play("Music1");
-            AudioManager.singleton.Play("Rain");
-        }
+            
     }
+
     void OnActiveSceneChanged(Scene scene, Scene scene1){
         AudioManager.singleton.StopAll();
     }

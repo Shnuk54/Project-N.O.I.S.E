@@ -5,23 +5,27 @@ using UnityEngine;
 public class Stress : MonoBehaviour
 {
     [Header("Stress")]
-    [SerializeField] private float _stressLevel;
-    [SerializeField] private float _standartChangeSpeed = 0.1f;
+    [SerializeField] private float _stress;
+    [SerializeField] private float _calmingSpeed;
     [SerializeField] private float _changeSpeed;
-    [SerializeField] private float _minimumStressLevel = 0;
+    [SerializeField] private float _minimumStress = 0;
     [SerializeField] private float _targetStress;
     [SerializeField] private StressStatus _status;
 
-
-
+    [SerializeField] private bool _stressedUp;
+    [SerializeField] private bool _alreadyStressed;
+    [SerializeField] private bool _calmedDown;
+    [SerializeField] private float _nextScareDelay;
+    [SerializeField] private float _timeBeforeCalming;
+   [SerializeField] private float _pastTime;
 
     public float TargetStress{
         get { return _targetStress; }
         set { _targetStress = value; }
     }
-    public float StressLevel
+    public float StressValue
     {
-        get { return _stressLevel; }
+        get { return _stress; }
         
     }
     public float StressChangeSpeed
@@ -33,56 +37,82 @@ public class Stress : MonoBehaviour
         get { return _status; }
     }
 
-    public void ChangeStress(float stress,float speed )
+    public void ChangeStress(float stress)
     {
-       
+       if(stress > 0) _stressedUp = true;
         if (_targetStress + stress > 100) {
             _targetStress = 100;
-            _changeSpeed = speed;
-           
+            _changeSpeed = 0.1f;
+            
             return;
         } 
         if (_targetStress + stress < 0f)
         {
             _targetStress = 0;
         
-            _changeSpeed = speed;
+            _changeSpeed = _calmingSpeed;
             return;
         } 
 
         _targetStress += stress;
-        _changeSpeed = speed;
-
-        
-        
+        _changeSpeed = 0.1f;
     }
 
     private void FixedUpdate()
     {
-        SmoothChangeStress(_changeSpeed,_minimumStressLevel);
+        SmoothChangeStress(_changeSpeed,_minimumStress);
+       
     }
+    private void Update()
+    {
+        Timer();
+    }
+    private void Timer()
+    {
+        if (_stressedUp)
+        {
+            _calmedDown = false;
+            _alreadyStressed = true;
+            _pastTime += Time.deltaTime;
+
+            if (_pastTime >= _nextScareDelay) _alreadyStressed = false;
+
+            if (_pastTime >= _timeBeforeCalming && _alreadyStressed == false)
+            {
+                _pastTime = 0;
+                _alreadyStressed = false;
+                _stressedUp = false;
+                _calmedDown = true;
+            }
+        }
+    }
+
     private void SmoothChangeStress(float changeSpeed,float minimumStress)
     {
-        if (_stressLevel == _targetStress) {
-            _changeSpeed = _standartChangeSpeed;
+        if (_stress == _targetStress) {
+            _changeSpeed = changeSpeed;
             return;
         }
         
-        if (_stressLevel > _targetStress || _stressLevel < _targetStress)
+        if (_stress > _targetStress || _stress < _targetStress)
         {
-            _stressLevel = Mathf.Lerp(_stressLevel, _targetStress, changeSpeed * Time.deltaTime);
-            var gate = _targetStress - _stressLevel;
+            _stress = Mathf.Lerp(_stress, _targetStress, changeSpeed * Time.deltaTime);
+            var gate = _targetStress - _stress;
             gate = Mathf.Abs(gate);
-            if (gate < 0.4f && _stressLevel != _targetStress) _stressLevel = Mathf.Round(_stressLevel);
+            if (gate < 0.4f && _stress != _targetStress) _stress = Mathf.Round(_stress);
 
         }
 
-        if (_stressLevel <= 10) _status = StressStatus.Ñalmn;
-        if(_stressLevel > 10 && _stressLevel < 25) _status = StressStatus.LowStress;
-        if (_stressLevel > 25 && _stressLevel < 50) _status = StressStatus.MediumStress;
-        if (_stressLevel > 50 && _stressLevel < 80) _status = StressStatus.HighStress;
-        if (_stressLevel > 80 && _stressLevel <= 100) _status = StressStatus.Scared;
+        if (_stress <= 10) _status = StressStatus.Ñalmn;
+        if(_stress > 10 && _stress < 25) _status = StressStatus.LowStress;
+        if (_stress > 25 && _stress < 50) _status = StressStatus.MediumStress;
+        if (_stress > 50 && _stress < 80) _status = StressStatus.HighStress;
+        if (_stress > 80 && _stress <= 100) _status = StressStatus.Scared;
+
+        
     }
 }
+
+    
 
 public  enum StressStatus { Ñalmn, LowStress, MediumStress, HighStress, Scared };
