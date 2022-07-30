@@ -17,7 +17,9 @@ public class Stress : MonoBehaviour
     [SerializeField] private bool _calmedDown;
     [SerializeField] private float _nextScareDelay;
     [SerializeField] private float _timeBeforeCalming;
-   [SerializeField] private float _pastTime;
+    [SerializeField] private float _pastTime;
+
+
 
     public float TargetStress{
         get { return _targetStress; }
@@ -37,19 +39,23 @@ public class Stress : MonoBehaviour
         get { return _status; }
     }
 
-    public void ChangeStress(float stress)
+    public void ChangeStress(float stress,float speed)
     {
        if(stress > 0) _stressedUp = true;
+
         if (_targetStress + stress > 100) {
             _targetStress = 100;
-            _changeSpeed = 0.1f;
+            _changeSpeed = speed;
+            if (_alreadyStressed)
+            {
+                _changeSpeed = speed / 3;
+            }
             
             return;
         } 
         if (_targetStress + stress < 0f)
         {
             _targetStress = 0;
-        
             _changeSpeed = _calmingSpeed;
             return;
         } 
@@ -89,8 +95,16 @@ public class Stress : MonoBehaviour
 
     private void SmoothChangeStress(float changeSpeed,float minimumStress)
     {
+        if (_calmedDown)
+        {
+            _targetStress = Mathf.Lerp(_targetStress, minimumStress, _calmingSpeed * Time.deltaTime);
+            var gate = _targetStress - minimumStress;
+            gate = Mathf.Abs(gate);
+            if (gate < 0.4f && minimumStress != _targetStress) _targetStress = Mathf.Round(_targetStress);
+        }
+       
+
         if (_stress == _targetStress) {
-            _changeSpeed = changeSpeed;
             return;
         }
         

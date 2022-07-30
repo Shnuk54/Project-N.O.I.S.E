@@ -90,7 +90,7 @@ public class PlayerLifeStatsController : MonoBehaviour
 
     private void Scare(float stress, float speed)
     {
-        _stressHandler.ChangeStress(stress);
+        _stressHandler.ChangeStress(stress,speed);
     }
     [ContextMenu("ChangeLifeStats")]
     private void ChangeLifeStats()
