@@ -12,6 +12,9 @@ public class Stress : MonoBehaviour
     [SerializeField] private float _targetStress;
     [SerializeField] private StressStatus _status;
 
+    
+    [Header("ScareMoments")]
+    [SerializeField] List<ScarryMoment> _scaresList;
     [SerializeField] private bool _stressedUp;
     [SerializeField] private bool _alreadyStressed;
     [SerializeField] private bool _calmedDown;
@@ -19,7 +22,7 @@ public class Stress : MonoBehaviour
     [SerializeField] private float _timeBeforeCalming;
     [SerializeField] private float _pastTime;
 
-
+    private ScarryMoment _scare;
 
     public float TargetStress{
         get { return _targetStress; }
@@ -39,49 +42,83 @@ public class Stress : MonoBehaviour
         get { return _status; }
     }
 
-    public void ChangeStress(float stress,float speed)
+    public void Scare(ScarryMoment scare)
     {
-       if(stress > 0) _stressedUp = true;
+     _stressedUp = true;
+     _scaresList.Add(scare);
+     StartCoroutine("ScareUp");
+    }
+    private void HandleScare(ScarryMoment scare)
+    {
 
-        if (_targetStress + stress > 100) {
+       if(scare.stress > 0)
+        {
+            _stressedUp = true;
+            _changeSpeed = scare.scareSpeed;
+        }
+       
+
+        if (_targetStress + scare.stress > 100) {
             _targetStress = 100;
-            _changeSpeed = speed;
+          
             if (_alreadyStressed)
             {
-                _changeSpeed = speed / 3;
-            }
-            
+                _changeSpeed = scare.scareSpeed/3f;
+             }
+     
             return;
         } 
-        if (_targetStress + stress < 0f)
+
+        if (_targetStress + scare.stress < _minimumStress)
         {
-            _targetStress = 0;
+            _targetStress = _minimumStress;
             _changeSpeed = _calmingSpeed;
             return;
         } 
 
-        _targetStress += stress;
-        _changeSpeed = 0.1f;
+        _targetStress += scare.stress;
+       
+    }
+
+    private IEnumerator ScareUp()
+    {
+        if (_stressedUp == false) yield return null;
+
+        yield return new WaitForSeconds(2f);
+
+        foreach(ScarryMoment scare in _scaresList)
+        {
+            _scare.scareSpeed += scare.scareSpeed;
+            _scare.stress += scare.stress;
+        }
+        HandleScare(_scare);
+
+        _scare.scareSpeed = 0;
+        _scare.stress = 0;
+        _scaresList.Clear();
     }
 
     private void FixedUpdate()
     {
         SmoothChangeStress(_changeSpeed,_minimumStress);
-       
+        
     }
     private void Update()
     {
-        Timer();
+        StressTimer();
     }
-    private void Timer()
+    private void StressTimer()
     {
         if (_stressedUp)
         {
             _calmedDown = false;
             _alreadyStressed = true;
             _pastTime += Time.deltaTime;
-
-            if (_pastTime >= _nextScareDelay) _alreadyStressed = false;
+           
+            if (_pastTime >= _nextScareDelay)
+            {
+                _alreadyStressed = false;
+            } 
 
             if (_pastTime >= _timeBeforeCalming && _alreadyStressed == false)
             {
@@ -130,3 +167,11 @@ public class Stress : MonoBehaviour
     
 
 public  enum StressStatus { Ñalmn, LowStress, MediumStress, HighStress, Scared };
+
+
+[System.Serializable]
+public struct ScarryMoment
+{
+    public float stress;
+    public float scareSpeed;
+}

@@ -88,10 +88,12 @@ public class PlayerLifeStatsController : MonoBehaviour
         ChangeLifeStats();
     }
 
-    private void Scare(float stress, float speed)
+    private void Scare(ScarryMoment scare)
     {
-        _stressHandler.ChangeStress(stress,speed);
+        _stressHandler.Scare(scare);
     }
+
+
     [ContextMenu("ChangeLifeStats")]
     private void ChangeLifeStats()
     {

@@ -10,7 +10,7 @@ using System;
     public static event UnityAction onPlayerBlink;
     public static event UnityAction onPlayerStartBlink;
     public static event UnityAction<IWeapon> onPlayerChangeWeapon;
-    public static event UnityAction<float , float > onPlayerScared;
+    public static event UnityAction<ScarryMoment> onPlayerScared;
 
     public static Events instance { get; private set; }
 
@@ -32,11 +32,11 @@ using System;
             onPlayerBlink.Invoke();
         }
     }
-    public void OnPlayerScared(float stress, float speed)
+    public void OnPlayerScared(ScarryMoment scare)
     {
         if (onPlayerScared != null)
         {
-            onPlayerScared.Invoke(stress,speed);
+            onPlayerScared.Invoke(scare);
         }
     }
 
