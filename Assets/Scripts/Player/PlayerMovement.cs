@@ -18,6 +18,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _stepLengthSprint;
     [SerializeField] private bool _leftStep;
     [SerializeField] private bool _rightStep;
+    [SerializeField] AudioClip _stepSound;
+    [SerializeField] AudioSource _audio;
     private Vector3 _currentStepPos;
    
 
@@ -89,12 +91,18 @@ public class PlayerMovement : MonoBehaviour
             {
                 _leftStep = false;
                 _rightStep = true;
+                _audio.clip = _stepSound;
+                _audio.panStereo = 0.9f;
+                _audio.Play();
                 return;
             }
             if (_rightStep)
             {
                 _leftStep = true;
                 _rightStep = false;
+                _audio.clip = _stepSound;
+                _audio.panStereo = -0.9f;
+                _audio.Play();
                 return;
             }
         }
